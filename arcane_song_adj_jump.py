@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 import csv
 import re
+from pykospacing import spacing
 
 filename = "eng_songs.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="")
@@ -47,6 +48,13 @@ for i in range(19, 21):
                            result['composer'], result['lyricist'], result['dates']]
                 print(payload)
                 writer.writerow(payload)
+            else:
+                kospacing_sent = spacing(result['title'])
+                payload = [kospacing_sent, result['artist'],
+                           result['composer'], result['lyricist'], result['dates']]
+                print(payload)
+                writer.writerow(payload)
+
                
 
 

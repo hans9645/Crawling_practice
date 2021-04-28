@@ -1,3 +1,7 @@
-req = requests.json("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=0a4980a82d68920e6069a9ce4ab33bd3&artist={}&album={}&format=json".format(
-#     "Khalid", "Better"))
-# print(req['album'])
+
+# with open('songs.csv', 'r') as f:
+#     csvreader = csv.reader(f, delimiter='\t')
+#     # 헤더(컬럼명) 건너뛰고 싶을 때
+#     next(csvreader)
+#     for row in csvreader:
+#         print(row)
