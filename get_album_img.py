@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver.common.keys import Keys
-
 import csv
 import json
 import requests
@@ -21,9 +20,9 @@ print(sent)
 print(kospacing_sent)
 
 
-# with open('songs.csv', 'r') as f:
-#     csvreader = csv.reader(f, delimiter='\t')
-#     # 헤더(컬럼명) 건너뛰고 싶을 때
-#     next(csvreader)
-#     for row in csvreader:
-#         print(row)
+with open('songs_adj_jump.csv', 'r') as f:
+    csvreader = csv.reader(f, delimiter='\t')
+    # 헤더(컬럼명) 건너뛰고 싶을 때
+    next(csvreader)
+    for row in csvreader:
+        print(row)
