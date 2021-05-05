@@ -3,10 +3,16 @@ import urllib.request
 import json
 from bs4 import BeautifulSoup
 import csv
+import re
+from pykospacing import spacing
+
 
 filename="songs.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="")
 writer = csv.writer(f)
+
+
+reg = re.compile(r'[a-zA-Z]')
 
 title = "title\tartist\tcomposer\tlyricist\tdates".split('\t')
 writer.writerow(title)
@@ -41,16 +47,10 @@ for i in range(19,21):
             writer.writerow(payload)
 
 # writer.writerow()
-
 # print(results)
-
-
 # results[0]['id']="what?"
 # print(results[0]['id'])
-
     
-
-
 # for result in results:
 #     req = requests.get('https://api.manana.kr/karaoke/release/201901/tj.json')
 #     links = req.json()
@@ -61,10 +61,6 @@ for i in range(19,21):
 #     payload = [result['title'],result['artist'],result['composer'],result['lyricist'],result['dates']]
 #     print(payload)
 #     writer.writerow(payload)
-
-
-
-
 
 
 
