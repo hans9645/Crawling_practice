@@ -41,40 +41,39 @@ with open('singer.csv', 'r') as f:
         print(type(row[0]))
         print(row[0])
         payload=[]
-        payload.append(row[0])
         elem.send_keys(row[0])
+        time.sleep(0.3)
         #elem.submit()
-        elem.send_keys(Keys.RETURN)
+        #elem.send_keys(Keys.RETURN)
         html = browser.page_source
         soup = BeautifulSoup(html, "lxml")
-        flag = soup.find('dl', attrs={'class': 'info_02 clfix'})
-        if flag==None:
+        flag1 = soup.find('span', attrs={'class': 'autocomplete-label'})
+        flag2 = soup.find('span', attrs={'class': "f11 autocomplete-info"})
+        if flag2==None:
             elem = browser.find_element_by_xpath("//*[@id='top_search']")
             elem.clear()
-            browser.back()
             continue
-        print(flag.find_all('dd')[1].get_text())
-        line = flag.find_all('dd')[1].get_text()
+        print(flag2.get_text())
+        line1=flag1.get_text()
+        line = flag2.get_text()
         elem = browser.find_element_by_xpath("//*[@id='top_search']")
         elem.clear()
+        payload.append(line1)
         try:
             if line.find(s)!=-1:
                 payload.append(s)
                 writer.writerow(payload)
                 elem.clear()
-                browser.back()
                 continue
             elif line.find(g)!=-1:
                 payload.append(g)
                 writer.writerow(payload)
                 elem.clear()
-                browser.back()
                 continue
             else:
                 payload.append(" ")
                 writer.writerow(payload)
                 elem.clear()
-                browser.back()
                 continue
         except:
             browser.quit() 
