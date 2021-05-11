@@ -38,8 +38,8 @@ with open('singer.csv', 'r') as f:
     #next(csvreader)
     for row in csvreader:
         elem = browser.find_element_by_xpath("//*[@id='top_search']")
-        print(type(row[0]))
-        print(row[0])
+        #print(type(row[0]))
+        print('검색:'+row[0])
         payload=[]
         elem.send_keys(row[0])
         time.sleep(0.3)
@@ -53,25 +53,31 @@ with open('singer.csv', 'r') as f:
             elem = browser.find_element_by_xpath("//*[@id='top_search']")
             elem.clear()
             continue
-        print(flag2.get_text())
+        
         line1=flag1.get_text()
         line = flag2.get_text()
+        print(line1)
+        print(line)
+        print('\n')
         elem = browser.find_element_by_xpath("//*[@id='top_search']")
         elem.clear()
-        payload.append(line1)
         try:
             if line.find(s)!=-1:
+                payload.append(line1)
                 payload.append(s)
                 writer.writerow(payload)
                 elem.clear()
                 continue
             elif line.find(g)!=-1:
+                payload.append(line1)
                 payload.append(g)
                 writer.writerow(payload)
                 elem.clear()
                 continue
             else:
-                payload.append(" ")
+                payload.append(row[0])
+                #payload.append("출력:"+line1)
+                payload.append("None_error")
                 writer.writerow(payload)
                 elem.clear()
                 continue

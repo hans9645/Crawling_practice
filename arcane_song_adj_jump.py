@@ -6,7 +6,7 @@ import csv
 import re
 from pykospacing import spacing
 
-filename = "eng_songs.csv"
+filename = "songs.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="")
 writer = csv.writer(f)
 
@@ -15,7 +15,7 @@ reg = re.compile(r'[a-zA-Z]')
 
 title = "title\tartist\tcomposer\tlyricist\tdates".split('\t')
 writer.writerow(title)
-for i in range(19, 21):
+for i in range(10, 21):
     for j in range(1, 13):
         if j < 10:
             req = requests.get(
