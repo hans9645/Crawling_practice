@@ -24,7 +24,7 @@ url_naver = "https://www.naver.com/"
 url_google = "https://www.google.co.kr/"
 url_melon = "https://www.melon.com/"
 
-filename = "solo_or_group.csv"
+filename = "artist_again_check.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="")
 writer = csv.writer(f)
 g='그룹'
@@ -32,7 +32,7 @@ s='솔로'
 search_keyword=0
 #artists=set()
 browser.get(url_melon)
-with open('singer.csv', 'r') as f:
+with open('artist_classify_failed.csv', 'r') as f:
     csvreader = csv.reader(f)
     # 헤더(컬럼명) 건너뛰고 싶을 때
     #next(csvreader)
