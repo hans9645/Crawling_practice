@@ -25,83 +25,99 @@ f = open(filename, "w", encoding="utf-8-sig", newline="")
 writer = csv.writer(f)
 search_keyword = 0
 #artists=set()
-browser.get(
-    'https: // people.search.naver.com/search.naver?sm=tab_hty & where=nexearch & query= & ie=utf8 & x=0 & y=0')
-with open('singer_name.csv', 'r') as file:
+# browser.get(
+#     'https://people.search.naver.com/')
+with open('fg.csv', 'r',encoding="utf-8-sig") as file:
     csvreader = csv.reader(file)
     # 헤더(컬럼명) 건너뛰고 싶을 때
     #next(csvreader)
     for row in csvreader:
-        driver.get(
-            "https://people.search.naver.com/search.naver?sm=sbx_hty&where=nexearch&ie=utf8&query={}&x=0&y=0".format(row[0]))
-        # elem = browser.find_element_by_xpath("//*[@id='nx_query']")
-        #print(type(row[0]))
+        browser.get(
+            "https://search.daum.net/search?nil_suggest=btn&w=tot&DA=SBC&q="+row[0])
         print('검색:'+row[0])
         payload = []
-        elem.send_keys(row[0])
-        #elem.submit()
+        elem = browser.find_element_by_xpath('//*[@id="q"]')
+        #elem.send_keys(row[0])
         elem.send_keys(Keys.RETURN)
+        elem = browser.find_element_by_xpath('//*[@id="q"]')
         html = browser.page_source
         soup = BeautifulSoup(html, "lxml")
-
-        flag1 = soup.find('span', attrs={'class': 'result_profile'})
-        flag2 = soup.find('span', attrs={'class': "result_profile"})
-        if flag2 == None:
-            elem = browser.find_element_by_xpath("//*[@id='nx_query']")
-            elem.clear()
+        #group = soup.find('div', attrs={'class': 'compo-thumblist ty_size5'})
+        group = soup.find('div', {"class": "compo-thumblist ty_size5"})
+        #group = soup.find('div', attrs={'data-comp': 'ThumbListItem'})
+        if group== -1:
             continue
-
-        line1 = flag2.get_text()
-        line = flag2.get_text()
-        # line=line.replace('/','\t')
-        decision=line1.find('가수')
-        if decision!=-1:
-            browser.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/a").click()
+            # elem.send_keys(Keys.RETURN)
+            # browser.get(
+            #     "https://people.search.naver.com/")
+            # elem = browser.find_element_by_xpath("//*[@id='nx_query']")
+            # #print(type(row[0]))
+            # print('검색:'+row[0])
+            # elem.send_keys(str(row[0]))
+            # #elem.submit()
+            # elem.send_keys(Keys.RETURN)
+            # elem = browser.find_element_by_xpath("//*[@id='nx_query']")
+            # html = browser.page_source
+            # soup = BeautifulSoup(html, "lxml")
+            # group = soup.find(
+            #     'span', attrs={'class': 'sub'})
+            # elem.clear()
+            # if group.get_text == '가수' | group.get_text == '음악인':
+            #     browser.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a").click()
+            #     html = browser.page_source
+            #     soup = BeautifulSoup(html, "lxml")
+            #     members = soup.findAll('dl', attrs={'class': 'dsc'})
+            #     print(type(memebers))
         else:
+            payload.append(row[0])
+            try:
+                for sibling in soup.find('div', {"class": "compo-thumblist ty_size5"}).ul.li.next_siblings:
+                    members = sibling.get_text()
+                    payload.append(members)
+                    print(members+" ")
+                    try:
+                        pageNumber = soup.find('span', {'class': 'total_page'})
+                        nextButton = browser.find_element_by_xpath(
+                            '//*[@id="pr0Coll"]/div/div/div/div[1]/div/span[2]/a[2]/span')
+                        for i in range(0,pageNumber):
+                            if nextButton != -1 and nextButton != None:
+                                nextButton.click()
+                            for sibling in soup.find('div', {"class": "compo-thumblist ty_size5"}).ul.li.next_siblings:
+                                members = sibling.get_text()
+                                payload.append(members)
+                                print(members+" ")
 
-            continue
+                    except Exception as e:
+                        print(e)
+                        browser.quit()
+                        continue
+                    writer.writerow(payload)
+            except Exception as e:
+                print(e)
+                browser.quit()
+                break
 
+                
 
-
-
-        print(line1)
-        print(line)
-        print('\n')
-        elem = browser.find_element_by_xpath("//*[@id='top_search']")
-        elem.clear()
-        try:
-            if line.find(s) != -1:
-                payload.append(line1)
-                line = line.replace('/', ',')
-                payload.append(line)
-                payload.append(s)
-                writer.writerow(payload)
-                elem.clear()
-
-                continue
-            elif line.find(g) != -1:
-                payload.append(line1)
-                payload.append(line)
-                payload.append(g)
-                writer.writerow(payload)
-                elem.clear()
-
-                continue
-            else:
-                payload.append(row[0])
-                #payload.append("출력:"+line1)
-                payload.append("None")
-                writer.writerow(payload)
-                elem.clear()
-
-                continue
-        except:
-            browser.quit()
+            # payload.append(row[0])
+            # members=group.get_text()
+            # payload.append(members)
+            # print(members)
+            # writer.writerow(payload)
 
 
-#        try:
-#     elem = WebDriverWait(browser, 10).until(
-#         EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div[2]/div/div[4]/ul/li[1]")))
-# except:
-#     browser.quit()
-#     print('error')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
