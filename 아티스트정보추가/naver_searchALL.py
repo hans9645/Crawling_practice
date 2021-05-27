@@ -47,13 +47,15 @@ with open('singer_name.csv', 'r', encoding="utf-8-sig") as file:
                     job = profile.get_text()
                     print('e1')
                     #job.find('뮤지컬배우') != -1 or job.find('가수') != -1 or job.find('음악인') != -1:
-                    
                     if job.find('뮤지컬배우') != -1 or job.find('가수') != -1 or job.find('음악인') != -1:
                         payload.append(row[0])
                         print(str(link))
                         browser.get(str(link))
                         html = browser.page_source
                         soup = BeautifulSoup(html, "lxml")
+                        member = soup.find('dl', {"class": "dsc"})
+                        if member.find('멤버') !=-1:
+                            
                         member = soup.find('dl', {"class": "dsc"}).dd
                         payload.append(member.get_text())
                         print(member.get_text())

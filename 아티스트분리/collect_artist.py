@@ -1,3 +1,4 @@
+#TJ미디어의 노래 리스트로부터 아티스트명만 분리해냄.
 from bs4 import BeautifulSoup
 from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options

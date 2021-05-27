@@ -85,4 +85,3 @@ with open('artist_classify_failed.csv', 'r') as f:
             browser.quit() 
 
 
-       
