@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-#from selenium.webdriver.common.keys import Keys
 import csv
 import json
 import requests
@@ -13,13 +12,13 @@ from requests import put
 import pandas as pd
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-#from selenium.webdriver.support.ui import webDriverWait
-#from selenium.webdriver.support import expected_condition as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 browser = webdriver.Chrome("./chromedriver")
 browser.maximize_window()
 # browser.quit()
-filename = "artist_Naver_info.csv"
+filename = "summary.csv"
 f = open(filename, "w", encoding="utf-8-sig", newline="")
 writer = csv.writer(f)
 search_keyword = 0
@@ -39,6 +38,7 @@ with open('fg.csv', 'r', encoding="utf-8-sig") as file:
             print('검색:'+row[0])
             elem.send_keys(str(row[0]))
             elem.send_keys(Keys.RETURN)
+            # browser.implicitly_wait(0.2)
             elem = browser.find_element_by_xpath("//*[@id='nx_query']")
             html = browser.page_source
             soup = BeautifulSoup(html, "lxml")
@@ -48,11 +48,17 @@ with open('fg.csv', 'r', encoding="utf-8-sig") as file:
                         'div', attrs={'class': 'who'})
                 # elem.clear()
                 flag=group.get_text()
-                if flag.find('가수') != -1:
-                    browser.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a").click()
-                    # elem = WebDriverWait(browser, 10).until(
-                    #     EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a")))
-                    # elem.click()
+                # flag.find('뮤지컬배우') != -1 or flag.find('가수') != -1 or flag.find('음악인') != -1:
+                if flag.find('뮤지컬배우') != -1 or flag.find('가수') != -1 or flag.find('음악인') != -1:
+                    # browser.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a").click()
+                    # browser.implicitly_wait(0.3)
+                    WebDriverWait(browser, 10).until(
+                        EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div")))
+                    elem = WebDriverWait(browser, 10).until(
+                        EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a")))
+                    elem.click()
+                    WebDriverWait(browser, 10).until(
+                        EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div/div[4]/dl")))
                     html = browser.page_source
                     soup = BeautifulSoup(html, "lxml")
                     member = soup.find('dl', {"class": "dsc"}).dd

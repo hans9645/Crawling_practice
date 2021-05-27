@@ -1,3 +1,2 @@
-elem = WebDriverWait(browser, 10).until(
-                    #     EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a")))
-                    # elem.click()
+browser.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/div/div/a").click()
+                    # browser.implicitly_wait(0.3)
