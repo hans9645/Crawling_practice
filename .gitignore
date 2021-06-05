@@ -1,2 +1,4 @@
 /Users/divertome/github_repository/Crawling_practice/__pycache__
 *.pyc
+/Users/divertome/github_repository/Crawling_practice/node_modules
+node_modules
