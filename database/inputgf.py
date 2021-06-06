@@ -3,14 +3,7 @@ import pandas as pd
 import csv
 from sqlalchemy import create_engine, text
 
-db = {
-    'user': 'arcane',
-    'passwd': 'Arcane123',
-    'database': 'arcanedb',
-    'charset': 'utf8-sig',
-    'host': 'arcanedb.cyu9nbnbjetu.ap-northeast-2.rds.amazonaws.com',
-    'port': 3306
-}
+
 
 db_url = f"mysql+mysqlconnector://{db['user']}:{db['passwd']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
 
