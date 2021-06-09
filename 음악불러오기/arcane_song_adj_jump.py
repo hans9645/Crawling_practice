@@ -16,14 +16,16 @@ reg = re.compile(r'[a-zA-Z]')
 
 title = "title\tartist\tcomposer\tlyricist\tdates".split('\t')
 writer.writerow(title)
-for i in range(20, 21):
+for i in range(0, 21):
     for j in range(1, 13):
-        if j < 10:
-            req = requests.get(
-                'https://api.manana.kr/karaoke/release/20{}0{}/tj.json'.format(i, j))
-        else:
-            req = requests.get(
-                'https://api.manana.kr/karaoke/release/2020{}/tj.json'.format(i, j))
+        req = requests.get(
+            'https://api.manana.kr/karaoke/release/20{}{}/tj.json'.format(str(i).zfill(2), str(j).zfill(2)))
+        # if j < 10:
+        #     req = requests.get(
+        #         'https://api.manana.kr/karaoke/release/20{}0{}/tj.json'.format(str(i).zfill(2), str(j).zfill(2)))
+        # else:
+        #     req = requests.get(
+        #         'https://api.manana.kr/karaoke/release/20{}{}/tj.json'.format(str(i).zfill(2), j))
         datas = req.json()
         results = []
         # title, artist, album, type, release, agency, lyrics, country, composer,lyricist

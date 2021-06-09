@@ -17,7 +17,7 @@ reg = re.compile(r'[a-zA-Z]')
 title = "artist".split('\t')
 writer.writerow(title)
 
-for i in range(10, 22):
+for i in range(0, 22):
     for j in range(1, 13):
         if i==21:
             if j>4:
@@ -25,12 +25,8 @@ for i in range(10, 22):
         # if i < 10:
         #     a=i
         #     a=format(a,'02')
-        if j < 10:
-            req = requests.get(
-                'https://api.manana.kr/karaoke/release/20{}0{}/tj.json'.format(i, j))
-        else:
-            req = requests.get(
-                'https://api.manana.kr/karaoke/release/20{}{}/tj.json'.format(i, j))
+        req = requests.get(
+            'https://api.manana.kr/karaoke/release/20{}{}/tj.json'.format(str(i).zfill(2), str(j).zfill(2)))
         datas = req.json()
 
         for data in datas:
